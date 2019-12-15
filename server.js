@@ -11,15 +11,21 @@ var request = require("request");
 
 // Mongoose
 
+// If deployed, use the deployed database. Otherwise use the local mongoHeadlines database
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
+
+// mongoose.connect(MONGODB_URI, );
+
+
 var Note = require("./models/Note");
 var Article = require("./models/Article");
 var databaseUrl = 'mongodb://localhost/scrap';
 
 if (process.env.MONGODB_URI) {
-    mongoose.connect(process.env.MONGODB_URI);
+    mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true, createIndexes: true });
 }
 else {
-    mongoose.connect(databaseUrl);
+    mongoose.connect(databaseUrl, { useNewUrlParser: true, useUnifiedTopology: true, createIndexes: true });
 };
 
 mongoose.Promise = Promise;
